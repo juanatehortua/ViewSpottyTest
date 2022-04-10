@@ -7,7 +7,7 @@ import axios from 'axios';
 
 function App() {
   const CLIENT_ID = "3f8559e3f5f74a7aa80c768f4745fc27"
-  const REDIRECT_URI = "http://localhost:3000"
+  const REDIRECT_URI = "https://viewspotty-e36e6.web.app/"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
 
