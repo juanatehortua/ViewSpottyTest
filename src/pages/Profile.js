@@ -10,7 +10,8 @@ import {
   SectionWrapper,
   ArtistsGrid,
   TrackList,
-  PlaylistsGrid
+  PlaylistsGrid,
+  Loader,
 } from '../components';
 import { StyledHeader } from '../styles';
 
@@ -61,9 +62,9 @@ const Profile = () => {
               </div>
             </div>
           </StyledHeader>
-
-          {topArtists && topTracks && playlists && (
-            <main>
+          <main>
+            {topArtists && topTracks && playlists ? (
+              <>
               <SectionWrapper title="Top artists" seeAllLink="/top-artists">
                 <ArtistsGrid artists={topArtists.items.slice(0, 5)} />
               </SectionWrapper>
@@ -75,8 +76,11 @@ const Profile = () => {
               <SectionWrapper title="Playlists" seeAllLink="/playlists">
                 <PlaylistsGrid playlists={playlists.items.slice(0, 5)} />
               </SectionWrapper>
-            </main>
+              </>
+          ) : (
+            <Loader />
           )}
+          </main>
         </>
       )}
     </>
