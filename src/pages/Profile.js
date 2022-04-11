@@ -10,13 +10,11 @@ import {
   SectionWrapper,
   ArtistsGrid,
   TrackList,
-  TimeRangeButtons,
+  PlaylistsGrid
 } from '../components';
 import { StyledHeader } from '../styles';
 
 const Profile = () => {
-  const [activeRange, setActiveRange] = useState('short');
-
   const [profile, setProfile] = useState(null);
   const [playlists, setPlaylists] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
@@ -30,15 +28,15 @@ const Profile = () => {
       const userPlaylists = await getCurrentUserPlaylists();
       setPlaylists(userPlaylists.data);
 
-      const userTopArtists = await getTopArtists(`${activeRange}_term`);
+      const userTopArtists = await getTopArtists();
       setTopArtists(userTopArtists.data);
 
-      const userTopTracks = await getTopTracks(`${activeRange}_term`);
+      const userTopTracks = await getTopTracks();
       setTopTracks(userTopTracks.data);
     };
 
     catchErrors(fetchData());
-  }, [activeRange]);
+  }, []);
 
   return (
     <>
@@ -64,21 +62,18 @@ const Profile = () => {
             </div>
           </StyledHeader>
 
-          {topArtists && topTracks && (
+          {topArtists && topTracks && playlists && (
             <main>
-              <SectionWrapper>
-                <TimeRangeButtons
-                   activeRange={activeRange}
-                   setActiveRange={setActiveRange}
-                />
+              <SectionWrapper title="Top artists" seeAllLink="/top-artists">
+                <ArtistsGrid artists={topArtists.items.slice(0, 5)} />
               </SectionWrapper>
 
-              <SectionWrapper title="Top artists">
-                <ArtistsGrid artists={topArtists.items.slice(0, 15)} />
+              <SectionWrapper title="Top tracks" seeAllLink="/top-tracks">
+                <TrackList tracks={topTracks.items.slice(0, 5)} />
               </SectionWrapper>
 
-              <SectionWrapper title="Top tracks">
-                <TrackList tracks={topTracks.items.slice(0, 15)} />
+              <SectionWrapper title="Playlists" seeAllLink="/playlists">
+                <PlaylistsGrid playlists={playlists.items.slice(0, 5)} />
               </SectionWrapper>
             </main>
           )}
